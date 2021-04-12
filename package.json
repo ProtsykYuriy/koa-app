@@ -1,0 +1,22 @@
+{
+  "name": "koa-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProtsykYuriy/koa-app.git"
+  },
+  "author": "Yuriy Protsyk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProtsykYuriy/koa-app/issues"
+  },
+  "homepage": "https://github.com/ProtsykYuriy/koa-app#readme",
+  "dependencies": {
+    "koa": "^2.13.1"
+  }
+}
