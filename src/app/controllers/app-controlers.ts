@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Delete,
+  QueryParam,
 } from 'routing-controllers';
 import { RoomConfig } from '../configs/appConfigs';
 
@@ -13,8 +14,8 @@ import { RoomConfig } from '../configs/appConfigs';
 export class RoomController {
 
   @Get('/:id')
-  getOne(@Param('id') id: number) {
-    return {id: id, name: 'test'};
+  getOne(@Param('id') id: number, @QueryParam("name") name: string) {
+    return {id: id, name: name || 'test'};
   }
 
   @Post('')
