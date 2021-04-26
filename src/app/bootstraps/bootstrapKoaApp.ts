@@ -5,9 +5,13 @@ import { AddressInfo } from 'net';
 import Application from 'koa';
 import { Server } from 'http';
 import { createKoaServer } from 'routing-controllers';
+import { connect, disconnect } from '../../database/database';
+import mongo from 'mongodb';
 
 let app: Application | null = null;
 let server: Server | null = null;
+let db: any;
+export let usersMongo: any;
 
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
@@ -33,6 +37,17 @@ export async function bootstrapKoaApp(): Promise<Server> {
   app.use(koaLogger());
 
   return new Promise(resolve => {
+    //connect();
+    mongo.connect('mongodb://localhost:27017/users', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }, async (err, client)=>{
+      if (err) throw err;
+      db = client.db('usersMongo');
+      usersMongo = await db.createCollection('usersMongoPure')
+      //console.log(db, usersMongo);
+      //client.close();
+    })
     server = (app as Application).listen(3000, () => {
       const { address, port } = (server as Server).address() as AddressInfo;
       console.log(`The server started on http://${address}:${port}`);
@@ -44,6 +59,7 @@ export async function bootstrapKoaApp(): Promise<Server> {
 
 export async function shutdownKoaApp(): Promise<void> {
   return new Promise((resolve, reject) => {
+    //disconnect();
     (server as Server).close(err => {
       if (err) {
         reject(err);
