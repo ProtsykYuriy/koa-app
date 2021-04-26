@@ -21,18 +21,18 @@
   },
   "homepage": "https://github.com/ProtsykYuriy/koa-app#readme",
   "dependencies": {
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.12.2",
     "koa": "^2.13.1",
-    "tsc-watch": "^4.2.3",
-    "typescript": "^3.9.7",
-    "routing-controllers": "^0.8.1",
     "koa-bodyparser": "^4.3.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^7.4.0",
-    "class-transformer": "^0.2.3",
-    "class-validator": "^0.12.2",
     "mongodb": "^3.3.3",
     "mongoose": "^5.12.5",
-    "routing-controllers-openapi": "^3.0.0"
+    "routing-controllers": "^0.8.1",
+    "routing-controllers-openapi": "^3.0.0",
+    "tsc-watch": "^4.2.3",
+    "typescript": "^3.9.7"
   },
   "devDependencies": {
     "@types/koa": "^2.11.3",
