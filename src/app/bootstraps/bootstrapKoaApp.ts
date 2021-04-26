@@ -7,6 +7,7 @@ import { Server } from 'http';
 import { createKoaServer } from 'routing-controllers';
 import { connect, disconnect } from '../../database/database';
 import mongo from 'mongodb';
+import { RoomController } from '../controllers/app-controlers';
 
 let app: Application | null = null;
 let server: Server | null = null;
@@ -16,6 +17,7 @@ export let usersMongo: any;
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
     controllers: [
+      RoomController
     ],
     middlewares: [
     ],
