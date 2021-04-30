@@ -1,5 +1,4 @@
-import { usersMongo } from './../bootstraps/bootstrapKoaApp';
-import { UserModel } from './../../database/users/users.model';
+import { users } from '../database/database';
 import {
   Controller,
   Param,
@@ -10,53 +9,32 @@ import {
   Delete,
   QueryParam,
 } from 'routing-controllers';
-import { RoomConfig } from '../requests/appRequests';
 import { Cursor } from 'mongodb';
 import { isFirebasePushId } from 'class-validator';
+import {getManager, getRepository} from "typeorm";
+import { User } from '../entity/user';
+//import {User} from "../entity/User";
 
 @Controller('/v1')
 export class RoomController {
-
   @Get('/:id')
   async getOne(@Param('id') id: number, @QueryParam('name') name: string) {
-
-    const cursor = usersMongo.find();
-    const users: any[] = await cursor.toArray();
-    //await cursor.forEach(doc => users.push(doc));
-    console.log('-----', JSON.stringify(users));
-    //return Object.assign(new UserModel(), users);
-    return users;
-
-    // const users =UserModel.find((err, usersReceived)=>{
-    //   if (err) throw err;
-    //   console.log( usersReceived)
-    //   return usersReceived;
-    // })
-
-
-    // const users = await new Promise(resolve => resolve(
-    //   UserModel.find((err, usersReceived)=>{
-    //       if (err) throw err;
-    //       return usersReceived;
-    //     })
-    // ))
-
-
-    //return users;
-
-    //return { id: id, name: name || 'test' };
+      return getManager().find(User);
+    // const cursor = users.find();
+    // const usersReceived: any[] = await cursor.toArray();
+    // console.log('-----', JSON.stringify(usersReceived));
+    // return usersReceived;
   }
 
   @Post('')
-  async post(@Body() room: RoomConfig) {
-    // const user = new UserModel({
-    //   name: room.name,
-    // });
-
+  async post(@Body() room: any) {
     try {
-      //await user.save();
-      await usersMongo.insertOne(room)
-
+      const userRepository = getRepository(User);
+      const newUser = new User();
+      newUser.name = 'Aizek';
+      //newUser.phone = '555';                                                                                                                                                                                                                                                                      )
+      await userRepository.save(newUser);
+      // await users.insertOne(room);
     } catch (err) {
       console.log(err);
     }
@@ -64,7 +42,7 @@ export class RoomController {
   }
 
   @Put('/:id')
-  put(@Param('id') id: number, @Body() room: RoomConfig) {
+  put(@Param('id') id: number, @Body() room: any) {
     return `Slot #${id} name changed to ${room.name} Edited!`;
   }
 

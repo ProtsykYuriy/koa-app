@@ -1,0 +1,14 @@
+{
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "database": "GrandBudapest",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+        "./src/app/entity/*.js"
+    ],
+    "cli": {
+        "entitiesDir": "./src/app/entity"
+    }
+}

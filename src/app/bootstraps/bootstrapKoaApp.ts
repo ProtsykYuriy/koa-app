@@ -5,14 +5,15 @@ import { AddressInfo } from 'net';
 import Application from 'koa';
 import { Server } from 'http';
 import { createKoaServer } from 'routing-controllers';
-import { connect, disconnect } from '../../database/database';
-import mongo from 'mongodb';
 import { RoomController } from '../controllers/app-controlers';
+import { createConnection } from 'typeorm';
+import { User } from '../entity/user';
+import "reflect-metadata";
 
 let app: Application | null = null;
 let server: Server | null = null;
 let db: any;
-export let usersMongo: any;
+
 
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
@@ -38,18 +39,40 @@ export async function bootstrapKoaApp(): Promise<Server> {
   app.use(bodyParser());
   app.use(koaLogger());
 
-  return new Promise(resolve => {
+  return new Promise(async resolve => {
+
     //connect();
-    mongo.connect('mongodb://localhost:27017/users', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }, async (err, client)=>{
-      if (err) throw err;
-      db = client.db('usersMongo');
-      usersMongo = await db.createCollection('usersMongoPure')
-      //console.log(db, usersMongo);
-      //client.close();
-    })
+
+    // await createConnection({
+    //   url: 'mongodb://localhost:27017/users',
+    //   type: "mongodb",
+    //   host: "localhost",
+    //   port: 27017,
+    //   // username: "test",
+    //   // password: "test",
+    //   database: "GrandBudapest",
+    //   //entities: ["src/database/users/user.ts"],
+    // })
+
+    createConnection().then(async connection => {
+      console.log("Inserting a new User into the database...");
+      const std = new User();
+      std.name = "Student1";
+
+      console.log('still going ...')
+
+      await connection.manager.save(std);
+      console.log("Saved a new user with id: " + std._id);
+
+      console.log("Loading users from the database...");
+      const stds = await connection.manager.find(User);
+      console.log("Loaded users: ", stds);
+
+      console.log("TypeORM with MongoDB");
+    }).catch(error => {
+      console.log(error)
+    });
+
     server = (app as Application).listen(3000, () => {
       const { address, port } = (server as Server).address() as AddressInfo;
       console.log(`The server started on http://${address}:${port}`);
@@ -61,7 +84,6 @@ export async function bootstrapKoaApp(): Promise<Server> {
 
 export async function shutdownKoaApp(): Promise<void> {
   return new Promise((resolve, reject) => {
-    //disconnect();
     (server as Server).close(err => {
       if (err) {
         reject(err);
