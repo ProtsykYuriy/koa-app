@@ -5,20 +5,19 @@ import { AddressInfo } from 'net';
 import Application from 'koa';
 import { Server } from 'http';
 import { createKoaServer } from 'routing-controllers';
-import { RoomController } from '../controllers/app-controlers';
+import { RoomController } from '../controllers/room-controllers';
+import { UserController } from './../controllers/user-controllers';
 import { createConnection } from 'typeorm';
-import { User } from '../entity/user';
-import "reflect-metadata";
 
 let app: Application | null = null;
 let server: Server | null = null;
-let db: any;
 
 
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
     controllers: [
-      RoomController
+      RoomController,
+      UserController
     ],
     middlewares: [
     ],
@@ -40,38 +39,7 @@ export async function bootstrapKoaApp(): Promise<Server> {
   app.use(koaLogger());
 
   return new Promise(async resolve => {
-
-    //connect();
-
-    // await createConnection({
-    //   url: 'mongodb://localhost:27017/users',
-    //   type: "mongodb",
-    //   host: "localhost",
-    //   port: 27017,
-    //   // username: "test",
-    //   // password: "test",
-    //   database: "GrandBudapest",
-    //   //entities: ["src/database/users/user.ts"],
-    // })
-
-    createConnection().then(async connection => {
-      console.log("Inserting a new User into the database...");
-      const std = new User();
-      std.name = "Student1";
-
-      console.log('still going ...')
-
-      await connection.manager.save(std);
-      console.log("Saved a new user with id: " + std._id);
-
-      console.log("Loading users from the database...");
-      const stds = await connection.manager.find(User);
-      console.log("Loaded users: ", stds);
-
-      console.log("TypeORM with MongoDB");
-    }).catch(error => {
-      console.log(error)
-    });
+    await createConnection()
 
     server = (app as Application).listen(3000, () => {
       const { address, port } = (server as Server).address() as AddressInfo;

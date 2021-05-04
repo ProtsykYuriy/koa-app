@@ -1,38 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
-
+import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
+import { Rooms } from "./room";
 @Entity()
-    export class User{
-        @PrimaryGeneratedColumn ('uuid')
-        _id: string;
+    export class Users {
+        @ObjectIdColumn()
+        _id: ObjectID;
 
         @Column ()
         name: string;
 
-        // @Column ()
-        // surname: string;
+        @Column ()
+        surname: string;
 
-        // @Column ()
-        // email: string;
+        @Column ()
+        email: string;
 
-        // @Column ()
-        // phone: number;
+        @Column ()
+        phone: string;
 
-        // @Column ()
-        // roomNumber: number;
-
-        // @Column ()
-        // roomType: string;
-
-        // @Column ()
-        // price: number;
-
-        // @Column ()
-        // facilities: {
-        //     freeWiFi: boolean,
-        //     freeParking: boolean,
-        //     freeAdditionalBed: boolean,
-        //     petsAllowed: boolean,
-        //     freeCarWash: boolean,
-        // };
+        @Column ()
+        room: Rooms;
     }

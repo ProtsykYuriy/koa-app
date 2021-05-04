@@ -1,13 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
-
+import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
 @Entity()
-    export class Room{
-        @PrimaryGeneratedColumn ()
-        _id: number;
+    export class Rooms{
+        @ObjectIdColumn()
+        _id: ObjectID;
 
         @Column ()
-        roomNumber: number;
+        roomNumber: string;
 
         @Column ()
         roomType: string;

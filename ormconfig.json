@@ -6,9 +6,9 @@
     "synchronize": true,
     "logging": false,
     "entities": [
-        "./src/app/entity/*.js"
+        "build/src/app/entity/*.js"
     ],
     "cli": {
-        "entitiesDir": "./src/app/entity"
+        "entitiesDir": "build/src/app/entity"
     }
 }
