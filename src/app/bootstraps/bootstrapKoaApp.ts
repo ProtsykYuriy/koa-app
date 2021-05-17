@@ -1,4 +1,3 @@
-import { RoomController } from './../controllers/app-controlers';
 import 'reflect-metadata';
 import bodyParser from 'koa-bodyparser';
 import koaLogger from 'koa-logger';
@@ -6,13 +5,19 @@ import { AddressInfo } from 'net';
 import Application from 'koa';
 import { Server } from 'http';
 import { createKoaServer } from 'routing-controllers';
+import { RoomController } from '../controllers/room-controllers';
+import { UserController } from './../controllers/user-controllers';
+import { createConnection } from 'typeorm';
 
 let app: Application | null = null;
 let server: Server | null = null;
 
+
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
-    controllers: [ RoomController
+    controllers: [
+      RoomController,
+      UserController
     ],
     middlewares: [
     ],
@@ -33,7 +38,9 @@ export async function bootstrapKoaApp(): Promise<Server> {
   app.use(bodyParser());
   app.use(koaLogger());
 
-  return new Promise(resolve => {
+  return new Promise(async resolve => {
+    await createConnection()
+
     server = (app as Application).listen(3000, () => {
       const { address, port } = (server as Server).address() as AddressInfo;
       console.log(`The server started on http://${address}:${port}`);
