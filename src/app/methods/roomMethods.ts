@@ -30,19 +30,12 @@ export async function getRoomsPriceFiltered(
   maxPrice: number = 10000
 ): Promise<Array<Rooms> | undefined> {
   try {
-      console.log(minPrice, maxPrice)
     const repository: Repository<Rooms> = getRepository(Rooms);
-    // const rooms = await repository
-    // .createQueryBuilder("user")
-    // .where({
-    //     price: Between(minPrice, maxPrice)
-    // })
-    // .getMany();
-    const rooms = await repository.find({
-        'price': Between(minPrice, maxPrice)
+    return await repository.find({
+      where: {
+        'price': {$lt: maxPrice, $gt: minPrice}
+      }
     });
-    console.log('======', rooms)
-    return rooms
   } catch (err) {
     console.log(err);
   }
