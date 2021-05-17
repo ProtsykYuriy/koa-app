@@ -1,8 +1,8 @@
 import { IUpdateObject } from './../interfaces/interfaces';
 import { ObjectId } from "mongodb";
 import { EntityTarget, getRepository, Repository } from "typeorm";
-import { Rooms } from "../entity/room";
 import { Users } from "../entity/user";
+import { Rooms } from "../entity/room";
 
 export async function getById (id: string, collection: EntityTarget<Users|Rooms>): Promise<any> {
     try {
