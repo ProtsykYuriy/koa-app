@@ -1,3 +1,4 @@
+import { RoomController } from './../controllers/app-controlers';
 import 'reflect-metadata';
 import bodyParser from 'koa-bodyparser';
 import koaLogger from 'koa-logger';
@@ -11,7 +12,7 @@ let server: Server | null = null;
 
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
-    controllers: [
+    controllers: [ RoomController
     ],
     middlewares: [
     ],
