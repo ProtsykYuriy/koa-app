@@ -5,22 +5,17 @@ import { AddressInfo } from 'net';
 import Application from 'koa';
 import { Server } from 'http';
 import { createKoaServer } from 'routing-controllers';
-import { RoomController } from '../controllers/room-controllers';
-import { UserController } from './../controllers/user-controllers';
+import { RoomController } from '../controllers/RoomControllers';
+import { UserController } from '../controllers/UserControllers';
 import { createConnection } from 'typeorm';
 
 let app: Application | null = null;
 let server: Server | null = null;
 
-
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
-    controllers: [
-      RoomController,
-      UserController
-    ],
-    middlewares: [
-    ],
+    controllers: [RoomController, UserController],
+    middlewares: [],
     // Official api allows only number as result code for nullResultCode and undefinedResultCode but it works with
     // custom error class in fact. It is done to force developers to set appropriate status codes explicitly
     // to prevent unpredictable behavior
@@ -38,8 +33,8 @@ export async function bootstrapKoaApp(): Promise<Server> {
   app.use(bodyParser());
   app.use(koaLogger());
 
-  return new Promise(async resolve => {
-    await createConnection()
+  return new Promise(async (resolve) => {
+    await createConnection();
 
     server = (app as Application).listen(3000, () => {
       const { address, port } = (server as Server).address() as AddressInfo;
@@ -52,7 +47,7 @@ export async function bootstrapKoaApp(): Promise<Server> {
 
 export async function shutdownKoaApp(): Promise<void> {
   return new Promise((resolve, reject) => {
-    (server as Server).close(err => {
+    (server as Server).close((err) => {
       if (err) {
         reject(err);
       }
