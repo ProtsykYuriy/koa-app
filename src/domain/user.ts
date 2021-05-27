@@ -1,5 +1,5 @@
+import { BookedRoom } from './bookedRoom';
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
-import { Rooms } from './room';
 
 @Entity()
 export class Users {
@@ -19,5 +19,5 @@ export class Users {
   phone: string;
 
   @Column()
-  room: Rooms;
+  rooms: BookedRoom[];
 }

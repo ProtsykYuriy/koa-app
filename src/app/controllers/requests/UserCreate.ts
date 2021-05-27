@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
-import { RoomCreate } from './RoomCreate';
+import { IsString, IsNotEmpty, IsArray } from 'class-validator';
+import { RoomBooked } from './RoomBooked';
 
 export class UserCreate {
   @IsNotEmpty()
@@ -18,6 +18,6 @@ export class UserCreate {
   @IsString()
   phone: string;
 
-  @IsOptional()
-  room: RoomCreate;
+  @IsArray()
+  rooms: RoomBooked[];
 }

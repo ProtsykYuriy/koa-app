@@ -5,8 +5,8 @@ import { AddressInfo } from 'net';
 import Application from 'koa';
 import { Server } from 'http';
 import { createKoaServer } from 'routing-controllers';
-import { RoomController } from '../controllers/RoomControllers';
-import { UserController } from '../controllers/UserControllers';
+import { RoomControllers } from '../controllers/RoomControllers';
+import { UserControllers } from '../controllers/UserControllers';
 import { createConnection } from 'typeorm';
 
 let app: Application | null = null;
@@ -14,7 +14,7 @@ let server: Server | null = null;
 
 export async function bootstrapKoaApp(): Promise<Server> {
   app = createKoaServer({
-    controllers: [RoomController, UserController],
+    controllers: [RoomControllers, UserControllers],
     middlewares: [],
     // Official api allows only number as result code for nullResultCode and undefinedResultCode but it works with
     // custom error class in fact. It is done to force developers to set appropriate status codes explicitly

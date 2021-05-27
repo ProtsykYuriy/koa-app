@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import {
   IsNotEmpty,
   IsNumber,
@@ -8,6 +9,10 @@ import {
 import { FacilitiesUpdate } from './FacilitiesUpdate';
 
 export class RoomUpdate {
+  @IsString()
+  @IsOptional()
+  _id: ObjectId;
+
   @IsString()
   @IsOptional()
   roomNumber: string;

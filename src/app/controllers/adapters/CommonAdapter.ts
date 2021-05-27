@@ -1,12 +1,22 @@
+import { ObjectId } from 'mongodb';
 import { Rooms } from '../../../domain/room';
 import { Users } from '../../../domain/user';
 import { RoomCreate } from '../requests/RoomCreate';
 import { UserCreate } from './../requests/UserCreate';
 
-export class CommonAdapter {
+export class CommonAdapter  {
   public static createRequestToEntity(
     body: RoomCreate | UserCreate
-  ): Rooms | Users {
-    return Object.assign(new Rooms(), body);
+  ): Rooms | Users{
+    const newEntityObject = body instanceof RoomCreate? new Rooms() : new Users();
+    return Object.assign(newEntityObject, body);
+  }
+
+  public static convertIncomeUpdateDataFormat(arr: any[]): void {
+    arr.forEach((bookedRoom) => {
+      bookedRoom.room._id = new ObjectId(bookedRoom.room._id);
+      bookedRoom.moveInDate = new Date(bookedRoom.moveInDate);
+      bookedRoom.moveOutDate = new Date(bookedRoom.moveOutDate);
+    });
   }
 }

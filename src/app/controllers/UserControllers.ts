@@ -9,22 +9,23 @@ import {
   Delete,
 } from 'routing-controllers';
 import { Users } from '../../domain/user';
-import { Rooms } from '../../domain/room';
+import { RoomBookedDates } from './requests/roomBookedDates';
 import { UserCreate } from './requests/UserCreate';
 import { UserUpdate } from './requests/UserUpdate';
-import { UserService } from '../services/UserService';
+import { RoomService } from '../services/RoomService';
 import { CommonService } from '../services/CommonService';
+import { UserService } from '../services/UserServices';
 
 @Controller('/v1/user')
-export class UserController {
+export class UserControllers {
   @Get('')
-  async getAllUsers(): Promise<(Users | Rooms)[] | undefined> {
-    return await CommonService.getWholeCollection(Users);
+  async getAllUsers(): Promise<Users[]> {
+    return CommonService.getAll(Users);
   }
 
   @Get('/:id')
-  async getOneUser(@Param('id') id: string): Promise<any> {
-    return await CommonService.getById(id, Users);
+  async getOneUser(@Param('id') id: string): Promise<Users> {
+    return CommonService.getById(id, Users);
   }
 
   @Post('')
@@ -38,7 +39,7 @@ export class UserController {
     @Param('id') id: string,
     @Body() user: UserUpdate
   ): Promise<void> {
-    await CommonService.editById(id, user, Users);
+    await UserService.editUserById(id, user);
   }
 
   @Delete('/:id')
@@ -49,13 +50,18 @@ export class UserController {
   @Put('/:userId/room/:roomId')
   async assignRoom(
     @Param('userId') userId: string,
-    @Param('roomId') roomId: string
+    @Param('roomId') roomId: string,
+    @Body() roomBookedDDates: RoomBookedDates,
   ): Promise<void> {
-    await UserService.assignRoomToUser(userId, roomId);
+    await RoomService.bookRoom(userId, roomId, roomBookedDDates);
   }
 
-  @Put('/:userId/room')
-  async unassignRoom(@Param('userId') userId: string): Promise<void> {
-    await UserService.unassignRoomFromUser(userId);
+  @Put('/:userId/unassign-room/:roomId')
+  async unassignRoom(
+    @Param('userId') userId: string,
+    @Param('roomId') roomId: string,
+    @Body() roomBookedDDates: RoomBookedDates,
+    ): Promise<void> {
+    await RoomService.cancelBookedRoom(userId, roomId, roomBookedDDates);
   }
 }

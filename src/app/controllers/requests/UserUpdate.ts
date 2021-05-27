@@ -19,5 +19,9 @@ export class UserUpdate {
   phone: string;
 
   @IsOptional()
-  room: RoomUpdate;
+  rooms: {
+    room: RoomUpdate,
+    moveInDate:string,
+    moveOutString:string,
+  }[];
 }
