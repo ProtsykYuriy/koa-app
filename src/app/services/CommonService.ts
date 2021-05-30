@@ -1,12 +1,7 @@
-import { RoomAdapter } from './../controllers/adapters/RoomAdapter';
 import { Users } from '../../domain/user';
 import { EntityTarget, getRepository, Repository } from 'typeorm';
 import { Rooms } from '../../domain/room';
 import { ObjectId } from 'mongodb';
-import { UserUpdate } from '../controllers/requests/UserUpdate';
-import { RoomUpdate } from '../controllers/requests/RoomUpdate';
-import { BookedRoom } from '../../domain/bookedRoom';
-import { bookedRoomInterface } from '../interfaces/bookedRoomUpdate';
 
 export class CommonService {
   public static async getById(
@@ -36,10 +31,11 @@ export class CommonService {
   public static async addNewItem<Type>(
     newItem: Type,
     repository
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const userRepository = getRepository(repository);
       await userRepository.save(newItem);
+      return newItem
     } catch (err) {
       console.log(err);
     }
@@ -48,11 +44,13 @@ export class CommonService {
   public static async deleteById(
     id: string,
     collection: EntityTarget<Users | Rooms>
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const getObjectId: ObjectId = new ObjectId(id);
       const repository: Repository<Users | Rooms> = getRepository(collection);
+      const deletedElement = await repository.findOne({ _id: getObjectId });
       await repository.delete({ _id: getObjectId });
+      return deletedElement
     } catch (err) {
       console.log(err);
     }

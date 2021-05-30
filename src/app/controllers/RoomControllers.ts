@@ -1,3 +1,4 @@
+import { RoomResponse } from './responses/RoomResponse';
 import {
   Controller,
   Param,
@@ -21,7 +22,7 @@ export class RoomControllers {
   async getAllRooms(
     @QueryParam('minPrice') minPrice: number,
     @QueryParam('maxPrice') maxPrice: number
-  ): Promise<Rooms[] | undefined> {
+  ): Promise<RoomResponse[] | undefined> {
     if (minPrice || maxPrice) {
       return RoomService.filterRoomsByPrice(minPrice, maxPrice);
     }
@@ -29,26 +30,26 @@ export class RoomControllers {
   }
 
   @Get('/:id')
-  async getOneRoom(@Param('id') id: string): Promise<Rooms> {
+  async getOneRoom(@Param('id') id: string): Promise<RoomResponse> {
     return CommonService.getById(id, Rooms);
   }
 
   @Post('')
-  async addNewUser(@Body() room: RoomCreate): Promise<void> {
-    const newUser = CommonAdapter.createRequestToEntity(room);
-    await CommonService.addNewItem(newUser, Rooms);
+  async addNewRoom(@Body() room: RoomCreate): Promise<RoomResponse> {
+    const newRoom = CommonAdapter.createRequestToEntity(room);
+    return CommonService.addNewItem(newRoom, Rooms);
   }
 
   @Put('/:id')
   async editRoomById(
     @Param('id') id: string,
     @Body() room: RoomUpdate
-  ): Promise<void> {
-    await RoomService.editRoomById(id, room);
+  ): Promise<RoomResponse | undefined> {
+    return RoomService.editRoomById(id, room);
   }
 
   @Delete('/:id')
-  async deleteRoomById(@Param('id') id: string): Promise<void> {
-    await CommonService.deleteById(id, Rooms);
+  async deleteRoomById(@Param('id') id: string): Promise<RoomResponse> {
+    return CommonService.deleteById(id, Rooms);
   }
 }

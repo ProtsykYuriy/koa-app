@@ -1,9 +1,11 @@
+import { RoomBooked } from './../requests/RoomBooked';
+import { Rooms } from './../../../domain/room';
 import { RoomUpdate } from "../requests/RoomUpdate";
 import { UserUpdate } from "../requests/UserUpdate";
 
 export class RoomAdapter {
   public static updateRoomProperties(
-    updatedElement: any,
+    updatedElement: RoomBooked | Rooms,
     updateBody: UserUpdate | RoomUpdate
   ): any {
     const updateKeys: string[] = Object.keys(updateBody);

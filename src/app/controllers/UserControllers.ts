@@ -1,3 +1,4 @@
+import { UserResponse } from './responses/UserResponse';
 import { CommonAdapter } from './adapters/CommonAdapter';
 import {
   Controller,
@@ -9,7 +10,7 @@ import {
   Delete,
 } from 'routing-controllers';
 import { Users } from '../../domain/user';
-import { RoomBookedDates } from './requests/roomBookedDates';
+import { RoomBookedDates } from './requests/RoomBookedDates';
 import { UserCreate } from './requests/UserCreate';
 import { UserUpdate } from './requests/UserUpdate';
 import { RoomService } from '../services/RoomService';
@@ -19,32 +20,32 @@ import { UserService } from '../services/UserServices';
 @Controller('/v1/user')
 export class UserControllers {
   @Get('')
-  async getAllUsers(): Promise<Users[]> {
+  async getAllUsers(): Promise<UserResponse[]> {
     return CommonService.getAll(Users);
   }
 
   @Get('/:id')
-  async getOneUser(@Param('id') id: string): Promise<Users> {
+  async getOneUser(@Param('id') id: string): Promise<UserResponse> {
     return CommonService.getById(id, Users);
   }
 
   @Post('')
-  async addNewUser(@Body() user: UserCreate): Promise<void> {
+  async addNewUser(@Body() user: UserCreate): Promise<UserResponse> {
     const newUser = CommonAdapter.createRequestToEntity(user);
-    await CommonService.addNewItem(newUser, Users);
+    return CommonService.addNewItem(newUser, Users);
   }
 
   @Put('/:id')
   async editUserById(
     @Param('id') id: string,
     @Body() user: UserUpdate
-  ): Promise<void> {
-    await UserService.editUserById(id, user);
+  ): Promise<UserResponse | undefined> {
+    return UserService.editUserById(id, user);
   }
 
   @Delete('/:id')
-  async deleteUserById(@Param('id') id: string): Promise<void> {
-    await CommonService.deleteById(id, Users);
+  async deleteUserById(@Param('id') id: string): Promise<UserResponse> {
+    return CommonService.deleteById(id, Users);
   }
 
   @Put('/:userId/room/:roomId')
@@ -52,8 +53,8 @@ export class UserControllers {
     @Param('userId') userId: string,
     @Param('roomId') roomId: string,
     @Body() roomBookedDDates: RoomBookedDates,
-  ): Promise<void> {
-    await RoomService.bookRoom(userId, roomId, roomBookedDDates);
+  ): Promise<UserResponse | undefined> {
+    return RoomService.bookRoom(userId, roomId, roomBookedDDates);
   }
 
   @Put('/:userId/unassign-room/:roomId')
@@ -61,7 +62,7 @@ export class UserControllers {
     @Param('userId') userId: string,
     @Param('roomId') roomId: string,
     @Body() roomBookedDDates: RoomBookedDates,
-    ): Promise<void> {
-    await RoomService.cancelBookedRoom(userId, roomId, roomBookedDDates);
+    ): Promise<UserResponse | undefined> {
+    return RoomService.cancelBookedRoom(userId, roomId, roomBookedDDates);
   }
 }

@@ -1,8 +1,9 @@
+import { RoomResponse } from './../controllers/responses/RoomResponse';
 import { Rooms } from '../../domain/room';
 import { Users } from '../../domain/user';
 import { BookedRoom } from '../../domain/bookedRoom';
 import { getRepository, Repository } from 'typeorm';
-import { RoomBookedDates } from '../controllers/requests/roomBookedDates';
+import { RoomBookedDates } from '../controllers/requests/RoomBookedDates';
 import { CommonService } from './CommonService';
 import { RoomUpdate } from '../controllers/requests/RoomUpdate';
 import { RoomAdapter } from '../controllers/adapters/RoomAdapter';
@@ -29,7 +30,7 @@ export class RoomService {
     userId: string,
     roomId: string,
     roomBookedDates: RoomBookedDates,
-  ): Promise<void> {
+  ): Promise<Users | undefined> {
     try {
       const UserRepository: Repository<Users> = getRepository(Users);
       let [room, user] = await Promise.all([
@@ -42,6 +43,7 @@ export class RoomService {
       bookedRoom.moveOutDate = new Date(roomBookedDates.moveOutDate);
       user.rooms.push(bookedRoom);
       UserRepository.save(user);
+      return user
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +53,7 @@ export class RoomService {
     userId: string,
     roomId: string,
     roomBookedDates: RoomBookedDates
-  ): Promise<void>  {
+  ): Promise<Users | undefined>  {
     try {
       const UserRepository: Repository<Users> = getRepository(Users);
       const user = await CommonService.getById(userId, Users);
@@ -61,6 +63,7 @@ export class RoomService {
         bookedRoom.moveOutDate.getTime() === new Date(roomBookedDates.moveOutDate).getTime())
       });
       await UserRepository.save(user);
+      return user
     } catch (err) {
       console.log(err);
     }
@@ -69,12 +72,13 @@ export class RoomService {
   public static async editRoomById(
     id: string,
     body:  RoomUpdate,
-  ): Promise<void> {
+  ): Promise<RoomResponse | undefined> {
     try {
       const repository: Repository<Rooms> = getRepository(Rooms);
       let element: Rooms = await CommonService.getById(id, Rooms);
       element = RoomAdapter.updateRoomProperties(element, body);
       await repository.save(element);
+      return element
     } catch (err) {
       console.log(err);
     }
