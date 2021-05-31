@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export class RoomResponse {
-  _id: ObjectId;
+  _id: string;
 
   roomNumber: string;
 

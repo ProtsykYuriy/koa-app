@@ -1,6 +1,8 @@
 import { RoomResponse } from "./RoomResponse";
 
 export class UserResponse {
+  _id: string;
+
   name: string;
 
   surname: string;

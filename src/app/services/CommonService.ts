@@ -35,7 +35,7 @@ export class CommonService {
     try {
       const userRepository = getRepository(repository);
       await userRepository.save(newItem);
-      return newItem
+      return newItem;
     } catch (err) {
       console.log(err);
     }
@@ -50,7 +50,7 @@ export class CommonService {
       const repository: Repository<Users | Rooms> = getRepository(collection);
       const deletedElement = await repository.findOne({ _id: getObjectId });
       await repository.delete({ _id: getObjectId });
-      return deletedElement
+      return deletedElement;
     } catch (err) {
       console.log(err);
     }

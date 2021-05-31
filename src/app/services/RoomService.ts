@@ -43,7 +43,7 @@ export class RoomService {
       bookedRoom.moveOutDate = new Date(roomBookedDates.moveOutDate);
       user.rooms.push(bookedRoom);
       UserRepository.save(user);
-      return user
+      return user;
     } catch (err) {
       console.log(err);
     }
@@ -63,7 +63,7 @@ export class RoomService {
         bookedRoom.moveOutDate.getTime() === new Date(roomBookedDates.moveOutDate).getTime())
       });
       await UserRepository.save(user);
-      return user
+      return user;
     } catch (err) {
       console.log(err);
     }
@@ -72,13 +72,13 @@ export class RoomService {
   public static async editRoomById(
     id: string,
     body:  RoomUpdate,
-  ): Promise<RoomResponse | undefined> {
+  ): Promise<Rooms | undefined> {
     try {
       const repository: Repository<Rooms> = getRepository(Rooms);
       let element: Rooms = await CommonService.getById(id, Rooms);
       element = RoomAdapter.updateRoomProperties(element, body);
       await repository.save(element);
-      return element
+      return element;
     } catch (err) {
       console.log(err);
     }

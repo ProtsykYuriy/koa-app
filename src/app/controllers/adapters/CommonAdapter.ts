@@ -2,6 +2,8 @@ import { ObjectId } from 'mongodb';
 import { Rooms } from '../../../domain/room';
 import { Users } from '../../../domain/user';
 import { RoomCreate } from '../requests/RoomCreate';
+import { RoomResponse } from '../responses/RoomResponse';
+import { UserResponse } from '../responses/UserResponse';
 import { UserCreate } from './../requests/UserCreate';
 
 export class CommonAdapter  {
@@ -18,5 +20,10 @@ export class CommonAdapter  {
       bookedRoom.moveInDate = new Date(bookedRoom.moveInDate);
       bookedRoom.moveOutDate = new Date(bookedRoom.moveOutDate);
     });
+  }
+
+  public static convertIdToString(obj: any): any{
+    obj._id = obj._id.toString();
+    return obj
   }
 }
