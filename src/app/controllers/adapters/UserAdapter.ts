@@ -1,8 +1,11 @@
-import { CommonAdapter } from './CommonAdapter';
+//import { CommonAdapter } from './CommonAdapter';
 import { BookedRoom } from "../../../domain/bookedRoom";
 import { Users } from "../../../domain/user";
 import { UserUpdate } from "../requests/UserUpdate";
 import { RoomAdapter } from './RoomAdapter';
+import { UserCreate } from '../requests/UserCreate';
+import { ObjectId } from 'mongodb';
+import { UserResponse } from "../responses/UserResponse";
 
 export class UserAdapter {
   public static updateUserProperties(
@@ -19,7 +22,7 @@ export class UserAdapter {
     return updatedElement;
   }
 
-  public static updateUserPersonalInfo(user: Users, updateUserBody: UserUpdate): any {
+  public static updateUserPersonalInfo(user: Users, updateUserBody: UserUpdate): Users {
     const updateKeys: string[] = Object.keys(updateUserBody);
     updateKeys.forEach((property: string) => {
       user[property] =
@@ -31,7 +34,7 @@ export class UserAdapter {
   }
 
   public static updateUserBookedRoomsInfo(userRoomsArr: BookedRoom[], updateRoomsBody: any[]): BookedRoom[] {
-    CommonAdapter.convertIncomeUpdateDataFormat(updateRoomsBody);
+    this.convertIncomeUpdateDataFormat(updateRoomsBody);
     updateRoomsBody.forEach((room) => {
       for (let i = 0; i < userRoomsArr.length; i++) {
         if (
@@ -44,5 +47,25 @@ export class UserAdapter {
       }
     });
     return userRoomsArr;
+  }
+
+  public static convertIncomeUpdateDataFormat(arr: any[]): void {
+    arr.forEach((bookedRoom) => {
+      bookedRoom.room._id = new ObjectId(bookedRoom.room._id);
+      bookedRoom.moveInDate = new Date(bookedRoom.moveInDate);
+      bookedRoom.moveOutDate = new Date(bookedRoom.moveOutDate);
+    });
+  }
+
+  public static createRequestToUserEntity(
+    body: UserCreate
+  ): Users{
+    const newEntityUserObject = new Users();
+    return Object.assign(newEntityUserObject, body);
+  }
+
+  public static convertUserIdToString(obj: any): UserResponse{
+    obj._id = obj._id.toString();
+    return obj
   }
 }
