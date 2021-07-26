@@ -6,7 +6,8 @@
     "synchronize": true,
     "logging": false,
     "entities": [
-        "build/src/app/entity/*.js"
+        "build/src/domain/room.js",
+        "build/src/domain/user.js"
     ],
     "cli": {
         "entitiesDir": "build/src/app/entity"
