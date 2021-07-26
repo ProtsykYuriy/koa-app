@@ -2,7 +2,7 @@ import { Rooms } from '../../domain/room';
 import { Users } from '../../domain/user';
 import { BookedRoom } from '../../domain/bookedRoom';
 import { getRepository, Repository } from 'typeorm';
-import { RoomBookedDates } from '../controllers/requests/RoomBookedDates';
+import { RoomBookedDates } from '../controllers/requests/roomBookedDates';
 import { RoomUpdate } from '../controllers/requests/RoomUpdate';
 import { RoomAdapter } from '../controllers/adapters/RoomAdapter';
 import { ObjectId } from 'mongodb';

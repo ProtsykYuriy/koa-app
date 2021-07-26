@@ -10,7 +10,7 @@ import {
   Delete,
 } from 'routing-controllers';
 //import { Users } from '../../domain/user';
-import { RoomBookedDates } from './requests/RoomBookedDates';
+import { RoomBookedDates } from './requests/roomBookedDates';
 import { UserCreate } from './requests/UserCreate';
 import { UserUpdate } from './requests/UserUpdate';
 import { RoomService } from '../services/RoomService';
