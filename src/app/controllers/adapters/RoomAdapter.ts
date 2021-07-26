@@ -10,28 +10,6 @@ export class RoomAdapter {
     updatedElement: RoomBooked | Rooms,
     updateBody: UserUpdate | RoomUpdate
   ): any {
-    //refactor as if we always get full object
-    // const updateKeys: string[] = Object.keys(updateBody);
-    // updateKeys.forEach((property: string): void => {
-    //   if (
-    //     typeof updateBody[property] === 'object' &&
-    //     Object.keys(updateBody[property]).length > 0
-    //   ) {
-    //     const basicObject = updatedElement[property]
-    //       ? updatedElement[property]
-    //       : {};
-    //     updatedElement[property] = this.updateRoomProperties(
-    //       basicObject,
-    //       updateBody[property]
-    //     );
-    //   } else {
-    //     updatedElement[property] =
-    //       updateBody[property] !== ''
-    //         ? updateBody[property]
-    //         : updatedElement[property];
-    //   }
-    // });
-    // return updatedElement;
     return Object.assign(updatedElement, updateBody)
   }
 

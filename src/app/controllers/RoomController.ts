@@ -9,12 +9,9 @@ import {
   Delete,
   QueryParam,
 } from 'routing-controllers';
-//import { Rooms } from '../../domain/room';
 import { RoomCreate } from './requests/RoomCreate';
 import { RoomUpdate } from './requests/RoomUpdate';
-//import { CommonService } from '../services/CommonService';
 import { RoomService } from '../services/RoomService';
-//import { CommonAdapter } from './adapters/CommonAdapter';
 import { RoomAdapter } from './adapters/RoomAdapter';
 
 @Controller('/v1/room')

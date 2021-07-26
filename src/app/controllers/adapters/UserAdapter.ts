@@ -1,4 +1,3 @@
-//import { CommonAdapter } from './CommonAdapter';
 import { BookedRoom } from "../../../domain/bookedRoom";
 import { Users } from "../../../domain/user";
 import { UserUpdate } from "../requests/UserUpdate";

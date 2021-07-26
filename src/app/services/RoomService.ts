@@ -75,8 +75,9 @@ export class RoomService {
       if(room){
         bookedRoom.room = room
       };
-      bookedRoom.moveInDate = new Date(roomBookedDates.moveInDate);
-      bookedRoom.moveOutDate = new Date(roomBookedDates.moveOutDate);
+      
+      //bookedRoom.moveInDate = new Date(roomBookedDates.moveInDate);
+      //bookedRoom.moveOutDate = new Date(roomBookedDates.moveOutDate);
       user.rooms.push(bookedRoom);
       UserRepository.save(user);
       return user;

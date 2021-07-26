@@ -1,5 +1,4 @@
 import { UserResponse } from './responses/UserResponse';
-//import { CommonAdapter } from './adapters/CommonAdapter';
 import {
   Controller,
   Param,
@@ -9,12 +8,10 @@ import {
   Put,
   Delete,
 } from 'routing-controllers';
-//import { Users } from '../../domain/user';
 import { RoomBookedDates } from './requests/roomBookedDates';
 import { UserCreate } from './requests/UserCreate';
 import { UserUpdate } from './requests/UserUpdate';
 import { RoomService } from '../services/RoomService';
-//import { CommonService } from '../services/CommonService';
 import { UserService } from '../services/UserServices';
 import { UserAdapter } from './adapters/UserAdapter';
 
